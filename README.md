@@ -17,4 +17,7 @@ $.get('https://raw.githubusercontent.com/minirang/MintBlock/refs/heads/main/bloc
 코드 자체는 자바스크립트 코드 실행 블록에 있는 eval 빼고 다 안전합니다.
 버그는 신속히 제보 바랍니다
 <br><br>
-단순 재미로만 사용하시고 제가 하지 않는 이상 널리 퍼뜨리지 말아주세요
+단순 재미로만 사용하시고 제가 하지 않는 이상 널리 퍼뜨리지 말아주세요.
+<br><br>
+![License](https://img.shields.io/badge/license-MIT-blue)
+![JavaScript](https://img.shields.io/badge/language-JavaScript-yellow)
