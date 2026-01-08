@@ -591,9 +591,7 @@ addBlock('full_screen', '전체화면 토글 %1', {
             size: 11,
         },
     ],
-    def: [
-        {}
-    ],
+    def: [],
     map: {},
 }, 'text', (sprite, script) => {
 Entry.engine.toggleFullScreen();
@@ -614,6 +612,31 @@ addBlock('no', '동작없음 %1', {
     map: {},
 }, 'text', (sprite, script) => {
 
+})
+////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('run_javascript_code', '[위험!] 자바스크립트 코드 실행하기 %1 %2', {
+    color: '#d90909',
+    outerline: '#691212',
+}, {
+    params: [
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['copy(Entry.exportProject())']
+        }
+    ],
+    map: {
+        CONTENT: 0,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+eval(content)
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 Entry.staticBlocks.push({
