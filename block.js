@@ -613,12 +613,33 @@ addBlock('no', '동작없음 %1', {
 }, 'text', (sprite, script) => {
 
 })
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('add_dummy_blocks', '더미블록 불러오기 %1', {
+    color: '#1fbb87ff',
+    outerline: '#3d836cff',
+}, {
+    params: [
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon.svg',
+            size: 11,
+        },
+    ],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+Entry.playground.blockMenu._bannedClass.forEach((block)=>Entry.playground.blockMenu.unbanClass(block));
+})
 ////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('run_javascript_code', '[위험!] 자바스크립트 코드 실행하기 %1 %2', {
     color: '#d90909',
-    outerline: '#691212',
+    outerline: '#801717ff',
 }, {
     params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
         {
             type: 'Indicator',
             img: 'block_icon/start_icon.svg',
@@ -628,7 +649,7 @@ addBlock('run_javascript_code', '[위험!] 자바스크립트 코드 실행하�
     def: [
         {
             type: 'text',
-            params: ['copy(Entry.exportProject())']
+            params: ['Entry.playground.blockMenu._bannedClass.forEach((block)=>Entry.playground.blockMenu.unbanClass(block))']
         }
     ],
     map: {
@@ -652,6 +673,7 @@ Entry.staticBlocks.push({
         'full_screen',
         'no',
         'run_javascript_code',
+        'add_dummy_blocks',
     ]
 });
 updateCategory('MintBlocks')
@@ -672,3 +694,4 @@ color: #ffffffff;
 $('#entryCategoryMintBlocks').append('민트블록')
 alert("민트블록 로딩 완료!");
 console.log('%c 민트블록 로딩 완료!', 'color: #15d8aeff; font-weight: bold; font-size: 50px; font-family: Arial;');
+console.log('%c 제작자: 서울민트초코', 'color: #15d8aeff; font-weight: bold; font-size: 20px; font-family: Arial;');
