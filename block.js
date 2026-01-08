@@ -672,8 +672,8 @@ Entry.staticBlocks.push({
         'refresh_page',
         'full_screen',
         'no',
+		'add_dummy_blocks',
         'run_javascript_code',
-        'add_dummy_blocks',
     ]
 });
 updateCategory('MintBlocks')
