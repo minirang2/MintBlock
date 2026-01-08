@@ -649,7 +649,7 @@ addBlock('run_javascript_code', '[위험!] 자바스크립트 코드 실행하�
     def: [
         {
             type: 'text',
-            params: ['Entry.playground.blockMenu._bannedClass.forEach((block)=>Entry.playground.blockMenu.unbanClass(block))']
+            params: ['10']
         }
     ],
     map: {
