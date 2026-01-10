@@ -337,7 +337,7 @@ const addBlock = (blockname, template, color, params, _class, func, skeleton = '
         template: template,
     }
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('console_log', 'console. %2 %1 %3', {
     color: '#1fbb87ff',
     outerline: '#3d836cff',
@@ -613,6 +613,83 @@ addBlock('add_dummy_blocks', '더미블록 불러오기 %1', {
 }, 'text', (sprite, script) => {
 Entry.playground.blockMenu._bannedClass.forEach((block)=>Entry.playground.blockMenu.unbanClass(block));
 })
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('entry_toast', '%1 제목의 %2 메시지를 %3 종류로 %4 %5 번 뜨게하기 %6', {
+    color: '#1fbb87ff',
+    outerline: '#3d836cff',
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Dropdown',
+            options: [
+                ['주의', 'warning'],
+                ['성공', 'success'],
+                ['경고', 'alert'],
+            ],
+            fontSize: 11,
+            arrowColor: '#27aa7eff',
+            value: 'warning'
+        },
+        {
+            type: 'Dropdown',
+            options: [
+                ['유지되게', 'auto-dispose'],
+                ['조금 후에 자동 삭제되게', 'maintain'],
+            ],
+            fontSize: 11,
+            arrowColor: '#27aa7eff',
+            value: 'auto-dispose'
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+            value: '1',
+            //def가 잘 안된다면 type이 Block이여도 이렇게 직접적으로 def 설정해도 됨
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['제목']
+        },
+        {
+            type: 'text',
+            params: ['쓸 내용']
+        }
+    ],
+    map: {
+        TITLE: 0,
+        CONTENT: 1,
+        TYPE: 2,
+        OPTION: 3,
+        NUMBER: 4,
+    },
+}, 'text', (sprite, script) => {
+const type = script.getValue('TYPE', script);
+const title = script.getValue('TITLE', script);
+const content = script.getValue('CONTENT', script);
+const option = script.getValue('OPTION', script);
+const number = script.getValue('NUMBER', script);
+for (let i = 0; i < number; i++) {
+    if (option === 'auto-dispose') {
+        Entry.toast[type](title, content, 'auto-dispose');
+    } else {
+        Entry.toast[type](title, content);
+    }
+}})
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('no', '동작없음 %1', {
     color: '#1fbb87ff',
@@ -657,7 +734,11 @@ addBlock('run_javascript_code', '[위험!] 자바스크립트 코드 실행하�
     },
 }, 'text', (sprite, script) => {
 const content = script.getValue('CONTENT', script);
+confirm('자바스크립트 코드를 실행하시겠습니까? 실행한 코드로 인해 발생하는 문제에 대해 제작자는 책임지지 않습니다.') &&
+confirm('정말 실행하시겠습니까?') &&
+confirm('최종 확인: 실행하시겠습니까?') &&
 eval(content)
+alert('실행 했습니다.');
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 Entry.staticBlocks.push({
@@ -672,6 +753,7 @@ Entry.staticBlocks.push({
         'refresh_page',
         'full_screen',
         'add_dummy_blocks',
+        'entry_toast',
         'no',
         'run_javascript_code',
     ]
@@ -695,3 +777,5 @@ $('#entryCategoryMintBlocks').append('민트블록')
 alert("민트블록 로딩 완료!");
 console.log('%c 민트블록 로딩 완료!', 'color: #15d8aeff; font-weight: bold; font-size: 50px; font-family: Arial;');
 console.log('%c 제작자: 서울민트초코', 'color: #15d8aeff; font-weight: bold; font-size: 20px; font-family: Arial;');
+
+// d$.get('https://cdn.jsdelivr.net/gh/minirang/MintBlock@master/block.js')
