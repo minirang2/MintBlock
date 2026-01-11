@@ -702,6 +702,34 @@ addBlock('get_browser_type', '브라우저 종류값 %1', {
 }, 'text', (sprite, script) => {
 return Entry.getBrowserType(); //return 필수
 }, 'basic_string_field')
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('if_scene_is', '만약 현재 장면이 %1 이라면', {
+    color: '#1fbb87ff',
+    outerline: '#3d836cff',
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['장면 1']
+        },
+    ],
+    map: {
+        CONTENT: 0,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+if (Entry.scene.selectedScene.name === content) {
+    return true;
+} else {
+    return false;
+}
+}, 'basic_boolean_field')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('no', '동작없음 %1', {
     color: '#1fbb87ff',
@@ -717,7 +745,6 @@ addBlock('no', '동작없음 %1', {
     def: [],
     map: {},
 }, 'text', (sprite, script) => {
-
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /*/ //너무 위험해서 주석처리함
@@ -749,9 +776,7 @@ addBlock('run_javascript_code', '[위험!] 자바스크립트 코드 실행하�
 const content = script.getValue('CONTENT', script);
 confirm('자바스크립트 코드를 실행하시겠습니까? 실행한 코드로 인해 발생하는 문제에 대해 제작자는 책임지지 않습니다.') &&
 confirm('정말 실행하시겠습니까?') &&
-confirm('최종 확인: 실행하시겠습니까?') &&
 eval(content)
-alert('실행 했습니다.');
 })
 /*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -769,8 +794,9 @@ Entry.staticBlocks.push({
         'add_dummy_blocks',
         'entry_toast',
         'get_browser_type',
+        'if_scene_is',
         'no',
-        //'run_javascript_code',
+        'run_javascript_code',
     ]
 });
 updateCategory('MintBlocks')
