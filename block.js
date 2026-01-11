@@ -579,7 +579,7 @@ addBlock('refresh_page', '페이지 새로고침하기 %1', {
     map: {},
 }, 'text', (sprite, script) => {
 location.reload();
-})
+}, 'basic_without_next')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('full_screen', '전체화면 토글 %1', {
     color: '#1fbb87ff',
