@@ -1,3 +1,4 @@
+//비밀아이디님의 콘트라베이스블록 보완버전
 Entry.staticBlocks = [
     {
         category: 'start',
