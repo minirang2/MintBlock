@@ -746,6 +746,27 @@ addBlock('no', '동작없음 %1', {
     map: {},
 }, 'text', (sprite, script) => {
 })
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('cute_block', '%1    ', {
+    color: '#1fbb87ff',
+    outerline: '#3d836cff',
+}, {
+    params: [
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_play.svg',
+            size: 14,
+            position: {
+                x: 0,
+                y: -2,
+            },
+        },
+    ],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+//아무 동작 없음
+}, 'basic_event')
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /*/ //너무 위험해서 주석처리함
 addBlock('run_javascript_code', '[위험!] 자바스크립트 코드 실행하기 %1 %2', {
@@ -796,6 +817,7 @@ Entry.staticBlocks.push({
         'get_browser_type',
         'if_scene_is',
         'no',
+        'cute_block',
         'run_javascript_code',
     ]
 });
