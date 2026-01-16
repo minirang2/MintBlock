@@ -338,10 +338,29 @@ const addBlock = (blockname, template, color, params, _class, func, skeleton = '
     }
 }
 //여기까지가 스페셜 블록에서 퍼온거
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('text-javascript-functions', '%1', {
+			color: EntryStatic.colorSet.common.TRANSPARENT,
+    outerline: EntryStatic.colorSet.common.TRANSPARENT
+}, {
+    params: [
+        {
+            type: 'Text',
+            text: '자바스크립트 기능들',
+            color: EntryStatic.colorSet.common.TEXT,
+            class: 'bold',
+            align: 'right',
+        }
+    ],
+    def: [],
+    map: {},
+})
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
+const c1 = '#1fbb87ff';
+const o1 = '#3d836cff';
 addBlock('console_log', 'console. %2 %1 %3', {
-    color: '#1fbb87ff',
-    outerline: '#3d836cff',
+    color: c1,
+    outerline: o1,
 }, {
     params: [
         {
@@ -391,8 +410,8 @@ consoleMethods[type](content);
 })
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('alert', 'alert %1 %2', {
-    color: '#1fbb87ff',
-    outerline: '#3d836cff',
+    color: c1,
+    outerline: o1,
 }, {
     params: [
         {
@@ -420,8 +439,8 @@ alert(content);
 })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('clear_console', 'clear console %1', {
-    color: '#1fbb87ff',
-    outerline: '#3d836cff',
+    color: c1,
+    outerline: o1,
 }, {
     params: [
         {
@@ -437,8 +456,8 @@ console.clear();
 })
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('url_decode_or_encode', '%2 URI %1 ', {
-    color: '#1fbb87ff',
-    outerline: '#3d836cff',
+    color: c1,
+    outerline: o1,
 }, {
     params: [
         {
@@ -477,8 +496,8 @@ if (type === 'encode') {
 }, 'basic_string_field')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('open_url', 'open URL %1 %2', {
-    color: '#1fbb87ff',
-    outerline: '#3d836cff',
+    color: c1,
+    outerline: o1,
 }, {
     params: [
         {
@@ -504,39 +523,21 @@ addBlock('open_url', 'open URL %1 %2', {
 const content = script.getValue('CONTENT', script);
 window.open(content, '_blank');
 })
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-addBlock('search_to_google', '구글에 %1 검색하기 %2', {
-    color: '#1fbb87ff',
-    outerline: '#3d836cff',
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('get_browser_type', '브라우저 종류값 %1', {
+    color: c1,
+    outerline: o1,
 }, {
-    params: [
-        {
-            type: 'Block',
-            accept: 'string',
-        },
-        {
-            type: 'Indicator',
-            img: 'block_icon/start_icon.svg',
-            size: 11,
-        },
-    ],
-    def: [
-        {
-            type: 'text',
-            params: ['엔트리']
-        }
-    ],
-    map: {
-        CONTENT: 0,
-    },
+    params: [],
+    def: [],
+    map: {},
 }, 'text', (sprite, script) => {
-const content = script.getValue('CONTENT', script);
-window.open("https://www.google.com/search?q=" + content, '_blank');
-})
+return Entry.getBrowserType(); //return 필수
+}, 'basic_string_field')
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('copy_text', '%1 복사하기 %2', {
-    color: '#1fbb87ff',
-    outerline: '#3d836cff',
+    color: c1,
+    outerline: o1,
 }, {
     params: [
         {
@@ -565,8 +566,8 @@ alert('텍스트가 복사되었습니다: ' + content);
 })
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('refresh_page', '페이지 새로고침하기 %1', {
-    color: '#1fbb87ff',
-    outerline: '#3d836cff',
+    color: c1,
+    outerline: o1,
 }, {
     params: [
         {
@@ -580,15 +581,90 @@ addBlock('refresh_page', '페이지 새로고침하기 %1', {
 }, 'text', (sprite, script) => {
 location.reload();
 }, 'basic_without_next')
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('text-extend-entry-functions', '%1', {
+			color: EntryStatic.colorSet.common.TRANSPARENT,
+    outerline: EntryStatic.colorSet.common.TRANSPARENT
+}, {
+    params: [
+        {
+            type: 'Text',
+            text: '엔트리 확장 기능',
+            color: EntryStatic.colorSet.common.TEXT,
+            class: 'bold',
+            align: 'right',
+        }
+    ],
+    def: [],
+    map: {},
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const c2 = 'rgb(117, 164, 233)';
+const o2 = 'rgb(69, 123, 204)';
+addBlock('convert-to-binary', '%1을/를 이진수로 변환한 값', {
+    color: c2,
+    outerline: o2,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['abc']
+        }
+    ],
+    map: {
+        CONTENT: 0,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+    const encoder = new TextEncoder();
+    return Array.from(encoder.encode(content))
+        .map(b => b.toString(2).padStart(8, '0'))
+        .join(' ');
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('search_to_google', '구글에 %1 검색하기 %2', {
+    color: c2,
+    outerline: o2,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/flow_icon.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['엔트리']
+        }
+    ],
+    map: {
+        CONTENT: 0,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+window.open("https://www.google.com/search?q=" + content, '_blank');
+})
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('full_screen', '전체화면 토글 %1', {
-    color: '#1fbb87ff',
-    outerline: '#3d836cff',
+    color: c2,
+    outerline: o2,
 }, {
     params: [
         {
             type: 'Indicator',
-            img: 'block_icon/start_icon.svg',
+            img: 'block_icon/flow_icon.svg',
             size: 11,
         },
     ],
@@ -598,14 +674,14 @@ addBlock('full_screen', '전체화면 토글 %1', {
 Entry.engine.toggleFullScreen();
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-addBlock('add_dummy_blocks', '더미블록 불러오기 %1', {
-    color: '#1fbb87ff',
-    outerline: '#3d836cff',
+addBlock('get_dummy_blocks', '더미블록 불러오기 %1', {
+    color: c2,
+    outerline: o2,
 }, {
     params: [
         {
             type: 'Indicator',
-            img: 'block_icon/start_icon.svg',
+            img: 'block_icon/flow_icon.svg',
             size: 11,
         },
     ],
@@ -616,8 +692,8 @@ Entry.playground.blockMenu._bannedClass.forEach((block)=>Entry.playground.blockM
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('entry_toast', '%1 제목의 %2 메시지를 %3 종류로 %4 %5 번 뜨게하기 %6', {
-    color: '#1fbb87ff',
-    outerline: '#3d836cff',
+    color: c2,
+    outerline: o2,
 }, {
     params: [
         {
@@ -657,7 +733,7 @@ addBlock('entry_toast', '%1 제목의 %2 메시지를 %3 종류로 %4 %5 번 뜨
         },
         {
             type: 'Indicator',
-            img: 'block_icon/start_icon.svg',
+            img: 'block_icon/flow_icon.svg',
             size: 11,
         },
     ],
@@ -692,20 +768,9 @@ for (let i = 0; i < number; i++) {
     }
 }})
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-addBlock('get_browser_type', '브라우저 종류값 %1', {
-    color: '#1fbb87ff',
-    outerline: '#3d836cff',
-}, {
-    params: [],
-    def: [],
-    map: {},
-}, 'text', (sprite, script) => {
-return Entry.getBrowserType(); //return 필수
-}, 'basic_string_field')
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('if_scene_is', '만약 현재 장면이 %1 이라면', {
-    color: '#1fbb87ff',
-    outerline: '#3d836cff',
+    color: c2,
+    outerline: o2,
 }, {
     params: [
         {
@@ -730,6 +795,23 @@ if (Entry.scene.selectedScene.name === content) {
     return false;
 }
 }, 'basic_boolean_field')
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('text-made-of-fun', '%1', {
+			color: EntryStatic.colorSet.common.TRANSPARENT,
+    outerline: EntryStatic.colorSet.common.TRANSPARENT
+}, {
+    params: [
+        {
+            type: 'Text',
+            text: '심심해서 만든 블록들',
+            color: EntryStatic.colorSet.common.TEXT,
+            class: 'bold',
+            align: 'right',
+        }
+    ],
+    def: [],
+    map: {},
+})
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('no', '동작없음 %1', {
     color: '#1fbb87ff',
@@ -767,9 +849,25 @@ addBlock('cute_block', '%1    ', {
 }, 'text', (sprite, script) => {
 //아무 동작 없음
 }, 'basic_event')
-////////////////////////////////////////////////////////////////////////////////////////////////
-/*/ //너무 위험해서 주석처리함
-addBlock('run_javascript_code', '[위험!] 자바스크립트 코드 실행하기 %1 %2', {
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('text-dangerous-blocks', '%1', {
+			color: EntryStatic.colorSet.common.TRANSPARENT,
+    outerline: EntryStatic.colorSet.common.TRANSPARENT
+}, {
+    params: [
+        {
+            type: 'Text',
+            text: '위험한 블록들',
+            color: EntryStatic.colorSet.common.TEXT,
+            class: 'bold',
+            align: 'right',
+        }
+    ],
+    def: [],
+    map: {},
+})
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('run_javascript_code', '[위험!] 자바스크립트 코드 실행하기 %1  ', {
     color: '#d90909',
     outerline: '#801717ff',
 }, {
@@ -777,11 +875,6 @@ addBlock('run_javascript_code', '[위험!] 자바스크립트 코드 실행하�
         {
             type: 'Block',
             accept: 'string',
-        },
-        {
-            type: 'Indicator',
-            img: 'block_icon/start_icon.svg',
-            size: 11,
         },
     ],
     def: [
@@ -795,29 +888,42 @@ addBlock('run_javascript_code', '[위험!] 자바스크립트 코드 실행하�
     },
 }, 'text', (sprite, script) => {
 const content = script.getValue('CONTENT', script);
-confirm('자바스크립트 코드를 실행하시겠습니까? 실행한 코드로 인해 발생하는 문제에 대해 제작자는 책임지지 않습니다.') &&
-confirm('정말 실행하시겠습니까?') &&
-eval(content)
+if (confirm('자바스크립트 코드를 실행하시겠습니까? 실행한 코드로 인해 발생하는 문제에 대해 제작자는 책임지지 않습니다.')) {
+    if (confirm('정말 실행하시겠습니까?')) {
+        eval(content);
+    }
+}
 })
-/*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 Entry.staticBlocks.push({
     category: 'MintBlocks', blocks: [
-	    'console_log',
+        'text-javascript-functions',
+
+        'console_log',
         'alert',
         'clear_console',
-        'open_url',
-        'search_to_google',
         'url_decode_or_encode',
+        'open_url',
+        'get_browser_type',
         'copy_text',
         'refresh_page',
+
+        'text-extend-entry-functions',
+
+        'convert-to-binary',
+        'search_to_google',
         'full_screen',
-        'add_dummy_blocks',
+        'get_dummy_blocks',
         'entry_toast',
-        'get_browser_type',
         'if_scene_is',
+
+        'text-made-of-fun',
+
         'no',
         'cute_block',
+
+        'text-dangerous-blocks',
+
         'run_javascript_code',
     ]
 });
@@ -840,5 +946,6 @@ $('#entryCategoryMintBlocks').append('민트블록')
 alert("민트블록 로딩 완료!");
 console.log('%c 민트블록 로딩 완료!', 'color: #15d8aeff; font-weight: bold; font-size: 50px; font-family: Arial;');
 console.log('%c 제작자: 서울민트초코', 'color: #15d8aeff; font-weight: bold; font-size: 20px; font-family: Arial;');
+Entry.aiAssistantEnable=true
 
 // d$.get('https://cdn.jsdelivr.net/gh/minirang/MintBlock/block.js')
