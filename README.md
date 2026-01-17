@@ -24,6 +24,7 @@ $.get('https://raw.githack.com/minirang/MintBlock/main/safe_mintBlock.js')
 버그는 신속히 제보 바랍니다.
 <br><br>
 단순 재미로만 사용해주세요.
+절대로 악용하지 마세요
 <br>
     
 ---
