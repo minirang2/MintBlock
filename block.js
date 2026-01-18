@@ -1068,7 +1068,7 @@ addBlock('open_maker_mypage', '제작자 마이페이지 열기 %1', {
     params: [
         {
             type: 'Indicator',
-            img: 'block_icon/start_icon.svg',
+            img: 'block_icon/hardware_icon.svg',
             size: 11,
         },
     ],
