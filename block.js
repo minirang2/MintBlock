@@ -1511,6 +1511,40 @@ addBlock('open_maker_mypage', '제작자 마이페이지 열기 %1', {
 }, 'text', (sprite, script) => {
 window.open('https://playentry.org/profile/62d00ecb8b49cc01e2b68603', '_blank');
 })
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('helpers_aqu3180', '도움을 주신 분: aqu3180님 %1', {
+    color: '#17a6df',
+    outerline: '#2e84a7',
+}, {
+    params: [
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_play.svg',
+            size: 11,
+        },
+    ],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+window.open('https://playentry.org/profile/65d07bfd11787000264734c1', '_blank');
+})
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('helpers_경찰악어씨', '도움을 주신 분: 경찰악어씨 님 %1', {
+    color: '#4bc227',
+    outerline: '#4da034',
+}, {
+    params: [
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_play.svg',
+            size: 11,
+        },
+    ],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+window.open('https://playentry.org/profile/683c3803cf1a83502cb03fa4', '_blank');
+})
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-dangerous-blocks', '%1', {
 			color: EntryStatic.colorSet.common.TRANSPARENT,
@@ -1611,6 +1645,8 @@ Entry.staticBlocks.push({
         'cute_block',
         'no',
         'open_maker_mypage',
+        'helpers_aqu3180',
+        'helpers_경찰악어씨',
 
         'text-dangerous-blocks',
 
