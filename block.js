@@ -1753,7 +1753,10 @@ addBlock('is_mute', '영상이 음소거 되있는가?', {
     def: [],
     map: {},
 }, 'text', (sprite, script) => {
-return window.ytPlayer.isMuted()
+if (window.ytPlayer && typeof window.ytPlayer.isMuted === 'function') {
+  return window.ytPlayer.isMuted();
+}
+return false;
 }, 'basic_boolean_field')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-iframe', '%1', {
