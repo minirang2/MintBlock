@@ -1711,7 +1711,7 @@ addBlock('video_opacity', '영상 투명도를 %1 % 로 정하기 %2', {
     },
 }, 'text', (sprite, script) => {
 const content = script.getValue('CONTENT', script);
-const canvas = getElementById('entryCanvas');
+const canvas = getElementById('entry-youtube-iframe');
 if (iframe) {
   canvas.style.opacity = content / 100;
 }
