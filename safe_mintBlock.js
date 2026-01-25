@@ -521,7 +521,7 @@ addBlock('open_url', 'open URL %1 %2', {
     },
 }, 'text', (sprite, script) => {
 const content = script.getValue('CONTENT', script);
-window.open(content, '_blank');
+window.open('https://playentry.org/redirect?external=' + content, '_blank');
 })
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('get_browser_type', '브라우저 종류값 %1', {
@@ -2113,4 +2113,4 @@ console.log('%c 민트블록 로딩 완료!', 'color: #15d8aeff; font-weight: bo
 console.log('%c 제작자: 서울민트초코', 'color: #15d8aeff; font-weight: bold; font-size: 20px; font-family: Arial;');
 Entry.aiAssistantEnable=true;
 
-// d$.get('https://cdn.jsdelivr.net/gh/minirang/MintBlock/block.js')
+// d$.get('https://cdn.jsdelivr.net/gh/minirang/MintBlock/safe_mintBlock.js')
