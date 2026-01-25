@@ -1494,7 +1494,7 @@ addBlock('play_video_on_youtube', '%1 ID의 유튜브 영상을 재생하기 %2'
     def: [
         {
             type: 'text',
-            params: ["R_H-7CpWs-s"]
+            params: ["dQw4w9WgXcQ"]
         },
     ],
     map: {
@@ -1505,8 +1505,18 @@ const content = script.getValue('CONTENT', script);
 const canvas = document.querySelector('#entryCanvas');
 const parentElement = canvas.parentElement;
 if (canvas && parentElement) {
+  if (window.ytPlayer) {
+    window.ytPlayer.destroy();
+    window.ytPlayer = null;
+    window.ytPlayerReady = false;
+  }
+  const oldIframe = document.getElementById('entry-youtube-iframe');
+  if (oldIframe) {
+    oldIframe.remove();
+  }
   const youtubeIframe = document.createElement('iframe');
-  youtubeIframe.setAttribute('src', 'https://www.youtube.com/embed/' + content + '?autoplay=1&mute=1'); // Replace VIDEO_ID
+  youtubeIframe.id = 'entry-youtube-iframe';
+  youtubeIframe.setAttribute('src', 'https://www.youtube.com/embed/' + content + '?autoplay=1&mute=1&enablejsapi=1');
   youtubeIframe.setAttribute('frameborder', '0');
   youtubeIframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
   youtubeIframe.setAttribute('allowfullscreen', '');
@@ -1515,6 +1525,26 @@ if (canvas && parentElement) {
   youtubeIframe.style.left = '0';
   youtubeIframe.style.zIndex = '10';
   parentElement.appendChild(youtubeIframe);
+  if (!window.YT) {
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+  }
+  const createPlayer = () => {
+    window.ytPlayer = new YT.Player(youtubeIframe, {
+      events: {
+        onReady: (event) => {
+          window.ytPlayer = event.target;
+          window.ytPlayerReady = true;
+        }
+      }
+    });
+  };
+  if (window.YT && window.YT.Player) {
+    createPlayer();
+  } else {
+    window.onYouTubeIframeAPIReady = createPlayer;
+  }
   const updateIframeSize = () => {
     const canvasRect = canvas.getBoundingClientRect();
     youtubeIframe.style.width = `${canvasRect.width}px`;
@@ -1546,20 +1576,279 @@ addBlock('destroy_video', '재생 취소하기 %1', {
         },
     ],
     def: [],
-    map: {
-    },
+    map: {},
 }, 'text', (sprite, script) => {
-const youtubeIframe = document.querySelector('iframe');
+const youtubeIframe = document.getElementById('entry-youtube-iframe');
 if (youtubeIframe) {
-  youtubeIframe.src = ''; // Stops the video and clears the content
-  const canvas = document.getElementById('entryCanvas');
-  const iframe = canvas?.nextElementSibling;
-  if (iframe && iframe.tagName === 'IFRAME') {
-    iframe.remove();
+  if (window.ytPlayer) {
+    window.ytPlayer.destroy();
+    window.ytPlayer = null;
+    window.ytPlayerReady = false;
   }
-  console.log('YouTube iframe src attribute cleared.');
+  youtubeIframe.remove();
+  console.log('YouTube iframe removed.');
 } else {
   console.log('No YouTube iframe found.');
+}
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('pause_video', '영상 일시정지하기 %1', {
+    color: c5,
+    outerline: o5,
+}, {
+    params: [
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_hardwarelite.svg',
+            size: 11,
+        },
+    ],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+window.ytPlayer.pauseVideo();
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('proceed_video', '영상 계속 틀기 %1', {
+    color: c5,
+    outerline: o5,
+}, {
+    params: [
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_hardwarelite.svg',
+            size: 11,
+        },
+    ],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+window.ytPlayer.playVideo();
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('move_video_second', '영상 %1 초로 이동하기 %2', {
+    color: c5,
+    outerline: o5,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string'
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_hardwarelite.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: [5]
+        }
+    ],
+    map: {
+        CONTENT: 0,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+window.ytPlayer.seekTo(content)
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('mute_or_unmute_video', '영상 %1 하기 %2', {
+    color: c5,
+    outerline: o5,
+}, {
+    params: [
+        {
+            type: 'Dropdown',
+            options: [
+                ['음소거', 'mute'],
+                ['소리', 'unMute'],
+            ],
+            fontSize: 11,
+            arrowColor: '#27aa7eff',
+            value: 'mute'
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_hardwarelite.svg',
+            size: 11,
+        },
+    ],
+    def: [],
+    map: {
+        TYPE: 0,
+    },
+}, 'text', (sprite, script) => {
+const type = script.getValue('TYPE', script);
+window.ytPlayer[type]();
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('video_opacity', '영상 투명도를 %1 % 로 정하기 %2', {
+    color: c5,
+    outerline: o5,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string'
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_hardwarelite.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+        type: 'text',
+        params: [50]
+        }
+    ],
+    map: {
+        CONTENT: 0,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+const canvas = getElementById('entryCanvas');
+if (iframe) {
+  canvas.style.opacity = content / 100;
+}
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('text-iframe', '%1', {
+			color: EntryStatic.colorSet.common.TRANSPARENT,
+            outerline: EntryStatic.colorSet.common.TRANSPARENT
+}, {
+    params: [
+        {
+            type: 'Text',
+            text: 'iframe',
+            color: EntryStatic.colorSet.common.TEXT,
+            align: 'right',
+        }
+    ],
+    def: [],
+    map: {},
+    class: 'text',
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const c6 = '#501fc2'
+const o6 = '#48249b'
+addBlock('make_iframe', 'iframe으로 사이트 %1 열기 %2', {
+    color: c6,
+    outerline: o6,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Indicator',
+            img: '../../../uploads/서울민트초코_not_move.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ["https://playentry.org"]
+        },
+    ],
+    map: {
+        CONTENT: 0,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+const canvas = document.querySelector('#entryCanvas');
+const parentElement = canvas.parentElement;
+if (canvas && parentElement) {
+  const oldIframe = document.getElementById('entry-iframe');
+  if (oldIframe) {
+    oldIframe.remove();
+  }
+  const contentIframe = document.createElement('iframe');
+  contentIframe.id = 'entry-iframe';
+  contentIframe.src = content;
+  contentIframe.style.position = 'absolute';
+  contentIframe.style.top = '-10';
+  contentIframe.style.left = '0';
+  contentIframe.style.zIndex = '10';
+  contentIframe.style.border = '0';
+  parentElement.appendChild(contentIframe);
+  const updateIframeSize = () => {
+    const canvasRect = canvas.getBoundingClientRect();
+    contentIframe.style.width = `${canvasRect.width}px`;
+    contentIframe.style.height = `${canvasRect.height}px`;
+  };
+  updateIframeSize();
+  const resizeObserver = new ResizeObserver(entries => {
+    for (let entry of entries) {
+      if (entry.target === canvas) {
+        updateIframeSize();
+      }
+    }
+  });
+  resizeObserver.observe(canvas);
+} else {
+  console.error("Canvas or its parent element not found.");
+}
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('remove_iframe', 'iframe 제거하기 %1', {
+    color: c6,
+    outerline: o6,
+}, {
+    params: [
+        {
+            type: 'Indicator',
+            img: '../../../uploads/서울민트초코_not_move.svg',
+            size: 11,
+        },
+    ],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+const youtubeIframe = document.getElementById('entry-iframe');
+if (youtubeIframe) {
+  youtubeIframe.remove();
+  console.log('iframe removed.');
+} else {
+  console.log('No iframe found.');
+}
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('iframe_opacity', 'iframe 투명도를 %1 % 로 정하기 %2', {
+    color: c6,
+    outerline: o6,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string'
+        },
+        {
+            type: 'Indicator',
+            img: '../../../uploads/서울민트초코_not_move.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+        type: 'text',
+        params: [50]
+        }
+    ],
+    map: {
+        CONTENT: 0,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+const iframe = document.getElementById('entry-iframe');
+if (iframe) {
+  iframe.style.opacity = content / 100;
 }
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1768,6 +2057,16 @@ Entry.staticBlocks.push({
         'play_video_on_youtube',
         'destroy_video',
         'pause_video',
+        'proceed_video',
+        'move_video_second',
+        'mute_or_unmute_video',
+        'video_opacity',
+
+        'text-iframe',
+
+        'make_iframe',
+        'remove_iframe',
+        'iframe_opacity',
 
         'text-made-of-fun',
 
