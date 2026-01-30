@@ -772,100 +772,6 @@ const content = script.getValue('CONTENT', script);
         .join(' ');
 }, 'basic_string_field')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-addBlock('power', '%1 의 %2 제곱', {
-    color: c2,
-    outerline: o2,
-}, {
-    params: [
-        {
-            type: 'Block',
-            accept: 'string',
-        },
-        {
-            type: 'Block',
-            accept: 'string',
-        },
-    ],
-    def: [
-        {
-            type: 'text',
-            params: [2]
-        },
-        {
-            type: 'text',
-            params: [4]
-        }
-    ],
-    map: {
-        BASE: 0,
-        EXPONENT: 1,
-    },
-}, 'text', (sprite, script) => {
-const base = script.getValue('BASE', script);
-const exponent = script.getValue('EXPONENT', script);
-return base ** exponent;
-}, 'basic_string_field')
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-addBlock('LCM_LCF', '%1 와 %2 의 %3', {
-    color: c2,
-    outerline: o2,
-}, {
-    params: [
-        {
-            type: 'Block',
-            accept: 'string',
-        },
-        {
-            type: 'Block',
-            accept: 'string',
-        },
-        {
-            type: 'Dropdown',
-            options: [
-                ['최소공배수', 'LCM'],
-                ['최대공약수', 'LCF'],
-            ],
-            fontSize: 11,
-            arrowColor: '#4375c0',
-            value: 'LCM'
-        },
-    ],
-    def: [
-        {
-            type: 'text',
-            params: [12]
-        },
-        {
-            type: 'text',
-            params: [6]
-        },
-    ],
-    map: {
-        NUM1: 0,
-        NUM2: 1,
-        TYPE: 2,
-    },
-}, 'text', (sprite, script) => {
-const num1 = parseInt(script.getValue('NUM1', script));
-const num2 = parseInt(script.getValue('NUM2', script));
-const type = script.getValue('TYPE', script);
-let x = num1;
-let y = num2;
-let temp;
-while (y !== 0) {
-  temp = x % y;
-  x = y;
-  y = temp;
-}
-let lcf = x;
-let lcm = (num1 * num2) / lcf;
-if (type === "LCM") {
-  return lcm;
-} else {
-  return lcf;
-}
-}, 'basic_string_field')
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('search_to_google', '구글에 %1 검색하기 %2', {
     color: c2,
     outerline: o2,
@@ -1228,6 +1134,115 @@ addBlock('entry_console_clear', '엔트리 콘솔 지우기 %1', {
 }, 'text', (sprite, script) => {
 Entry.console.clear();
 })
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('text-calc', '%1', {
+  color: EntryStatic.colorSet.common.TRANSPARENT,
+}, {
+  params: [
+    {
+        type: 'Text',
+        text: '계산',
+        align: 'center',
+        color: EntryStatic.colorSet.common.TEXT,
+    }
+],
+}, 'text', () => {
+
+}, 'basic_text')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('power', '%1 의 %2 제곱', {
+    color: c2,
+    outerline: o2,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: [2]
+        },
+        {
+            type: 'text',
+            params: [4]
+        }
+    ],
+    map: {
+        BASE: 0,
+        EXPONENT: 1,
+    },
+}, 'text', (sprite, script) => {
+const base = script.getValue('BASE', script);
+const exponent = script.getValue('EXPONENT', script);
+return base ** exponent;
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('LCM_LCF', '%1 와 %2 의 %3', {
+    color: c2,
+    outerline: o2,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Dropdown',
+            options: [
+                ['최소공배수', 'LCM'],
+                ['최대공약수', 'LCF'],
+            ],
+            fontSize: 11,
+            arrowColor: '#4375c0',
+            value: 'LCM'
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: [12]
+        },
+        {
+            type: 'text',
+            params: [6]
+        },
+    ],
+    map: {
+        NUM1: 0,
+        NUM2: 1,
+        TYPE: 2,
+    },
+}, 'text', (sprite, script) => {
+const num1 = parseInt(script.getValue('NUM1', script));
+const num2 = parseInt(script.getValue('NUM2', script));
+const type = script.getValue('TYPE', script);
+let x = num1;
+let y = num2;
+let temp;
+while (y !== 0) {
+  temp = x % y;
+  x = y;
+  y = temp;
+}
+let lcf = x;
+let lcm = (num1 * num2) / lcf;
+if (type === "LCM") {
+  return lcm;
+} else {
+  return lcf;
+}
+}, 'basic_string_field')
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-project', '%1', {
   color: EntryStatic.colorSet.common.TRANSPARENT,
@@ -2309,8 +2324,6 @@ Entry.staticBlocks.push({
         'text-extend_entry_functions',
 
         'convert-to-binary',
-        'power',
-        'LCM_LCF',
         'search_to_google',
         'get_dummy_blocks',
         'entry_toast',
@@ -2322,6 +2335,11 @@ Entry.staticBlocks.push({
         'set_fps',
         'entry_console',
         'entry_console_clear',
+
+        'text-calc',
+
+        'power',
+        'LCM_LCF',
 
         'text-project',
 
