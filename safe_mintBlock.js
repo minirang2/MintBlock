@@ -544,10 +544,10 @@ const content = script.getValue('CONTENT', script);
 const option = script.getValue('OPTION', script);
 const type = script.getValue('TYPE', script);
 if (type === 'noopener,noreferre') {
-    window.open(content, option, 'noopener,noreferre');
+    window.open('https://playentry.org/redirect?external=' + content, option, 'noopener,noreferre');
 }
 else {
-    window.open(content, option);
+    window.open('https://playentry.org/redirect?external=' + content, option);
 }
 })
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
