@@ -643,7 +643,7 @@ addBlock('refresh_page', '페이지 새로고침하기 %1', {
 location.reload();
 }, 'basic_without_next')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-addBlock('ascii', '%1 을/를 아스키 코드로 변환한 값 (한글자만)', {
+addBlock('ascii', '%1 를 아스키 코드로 변환한 값 (한글자)', {
     color: c1,
     outerline: o1,
 }, {
@@ -665,7 +665,6 @@ addBlock('ascii', '%1 을/를 아스키 코드로 변환한 값 (한글자만)',
 }, 'text', (sprite, script) => {
 const content = script.getValue('CONTENT', script);
 if (content.length === 1) {
-    content.charCodeAt(0);
     return content.charCodeAt(0);
 }
 else {
@@ -701,6 +700,36 @@ if (content.trim() === content) {
 else{
     content.trim();
     return content.trim();
+}
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('unicode', '%1 를 유니코드로 변환한 값 (한글자)', {
+    color: c1,
+    outerline: o1,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['A']
+        },
+    ],
+    map: {
+        CONTENT: 0,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+if (content.length === 1) {
+    return 'U+' + content.codePointAt(0).toString(16).toUpperCase().padStart(4, '0');
+}
+else {
+    Entry.toast.alert('유니코드 변환 블록 오류', '한 글자만 입력해주세요.');
+    Entry.engine.toggleStop();
 }
 }, 'basic_string_field')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1134,6 +1163,113 @@ addBlock('entry_console_clear', '엔트리 콘솔 지우기 %1', {
 }, 'text', (sprite, script) => {
 Entry.console.clear();
 })
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('is_it_true', '%1 가 참인가?', {
+    color: c2,
+    outerline: o2,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: [1]
+        }
+    ],
+    map: {
+        CONTENT: 0,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+if (content) {
+    return true;
+}
+else {
+    return false;
+}
+}, 'basic_boolean_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('wait_while_true', '%1 인동안 기다리기 %2', {
+    color: c2,
+    outerline: o2,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'boolean',
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/flow_icon.svg',
+            size: 11,
+        },
+    ],
+    def: [],
+    map: {
+        BOOLEAN: 0,
+    },
+}, 'text', async (sprite, script) => {
+const boolean = script.getValue('BOOLEAN', script);
+{
+  if (boolean) {
+    return script;
+  }
+  return script.callReturn();
+}
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('entry_canvas_color_reverse', '엔트리 캔버스 색상 반전하기 %1', {
+    color: c2,
+    outerline: o2,
+}, {
+    params: [
+        {
+            type: 'Indicator',
+            img: 'block_icon/flow_icon.svg',
+            size: 11,
+        },
+    ],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+const canvas = document.querySelector('#entryCanvas');
+if (canvas) {
+    if (canvas.style.filter === 'invert(100%)') {
+        canvas.style.filter = 'invert(0%)';
+    }
+    else if (canvas.style.filter === 'invert(0%)'){
+        canvas.style.filter = 'invert(100%)';
+    }
+}
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('get_block_by_blockname', '%1 이름의 블록 불러오기 %2', {
+    color: c2,
+    outerline: o2,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/flow_icon.svg',
+            size: 11,
+        },
+    ],
+    def: [],
+    map: {
+        BLCNAME: 0,
+    },
+}, 'text', (sprite, script) => {
+const blcname = script.getValue('BLCNAME', script);
+const project = Entry.exportProject(); const content = JSON.parse(project.objects[0].script); content[0][0].type = blcname; project.objects[0].script = JSON.stringify(content); Entry.clearProject(); Entry.loadProject(project);
+})
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-calc', '%1', {
   color: EntryStatic.colorSet.common.TRANSPARENT,
@@ -1244,6 +1380,50 @@ if (type === "LCM") {
 } else {
   return lcf;
 }
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('infinity', 'infinity', {
+    color: c7,
+    outerline: o7,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+return Infinity;
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('-infinity', '-infinity', {
+    color: c7,
+    outerline: o7,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+return -Infinity;
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('null', 'null', {
+    color: c7,
+    outerline: o7,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+return null;
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('NaN', 'NaN', {
+    color: c7,
+    outerline: o7,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+return NaN;
 }, 'basic_string_field')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('is_positive_or_nagative', '%1 이 %2 인가?', {
@@ -2218,6 +2398,170 @@ addBlock('reload_iframe_page', 'iframe 안에 페이지 새로고침하기 %1', 
 document.getElementById("entry-iframe").contentWindow.location.reload();
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('text-localStorage', '%1', {
+  color: EntryStatic.colorSet.common.TRANSPARENT,
+}, {
+  params: [
+    {
+        type: 'Text',
+        text: 'localStorage',
+        align: 'center',
+        color: EntryStatic.colorSet.common.TEXT,
+    }
+],
+}, 'text', () => {
+
+}, 'basic_text')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const c8 = '#14c1c7'
+const o8 = '#18acb1'
+addBlock('setitem', 'key %1 value %2 추가하기 %3', {
+    color: c8,
+    outerline: o8,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_keyboard.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['값 1']
+        },
+        {
+            type: 'text',
+            params: [5]
+        },
+    ],
+    map: {
+        KEY: 0,
+        VALUE: 1,
+    },
+}, 'text', (sprite, script) => {
+const key = script.getValue('KEY', script);
+const value = script.getValue('VALUE', script);
+window.localStorage.setItem(key, value)
+console.log('추가 완료')
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('getitem', 'key %1 의 값', {
+    color: c8,
+    outerline: o8,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['값 1']
+        },
+    ],
+    map: {
+        KEY: 0,
+    },
+}, 'text', (sprite, script) => {
+const key = script.getValue('KEY', script);
+return window.localStorage.getItem(key);
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('length', 'localStorage 항목값', {
+    color: c8,
+    outerline: o8,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+return window.localStorage.length;
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('removeitem', 'key %1 를 localStorage에서 삭제하기 %2', {
+    color: c8,
+    outerline: o8,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_keyboard.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['값 1']
+        },
+    ],
+    map: {
+        KEY: 0,
+    },
+}, 'text', (sprite, script) => {
+const key = script.getValue('KEY', script);
+window.localStorage.removeItem(key);
+console.log('삭제 완료')
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('clear', 'localStorage 값 전체 삭제하기 %1', {
+    color: c8,
+    outerline: o8,
+}, {
+    params: [
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_keyboard.svg',
+            size: 11,
+        },
+    ],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+window.localStorage.clear();
+console.log('전체 삭제 완료')
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('key', 'index %1 번의 key 값', {
+    color: c8,
+    outerline: o8,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: [0]
+        },
+    ],
+    map: {
+        INDEX: 0,
+    },
+}, 'text', (sprite, script) => {
+const index = script.getValue('INDEX', script);
+return window.localStorage.key(index)
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-made_of_fun', '%1', {
   color: EntryStatic.colorSet.common.TRANSPARENT,
 }, {
@@ -2394,6 +2738,7 @@ Entry.staticBlocks.push({
         'refresh_page',
         'ascii',
         'trim',
+        'unicode',
         'prompt',
 
         'text-extend_entry_functions',
@@ -2410,12 +2755,20 @@ Entry.staticBlocks.push({
         'set_fps',
         'entry_console',
         'entry_console_clear',
+        'is_it_true',
+        'wait_while_true',
+        'entry_canvas_color_reverse',
+        'get_block_by_blockname',
 
         'text-calc',
 
         'power',
         'LCM_LCF',
         'is_positive_or_nagative',
+        'infinity',
+        '-infinity',
+        'null',
+        'NaN',
 
         'text-project',
 
@@ -2455,6 +2808,15 @@ Entry.staticBlocks.push({
         'remove_iframe',
         'iframe_opacity',
         'reload_iframe_page',
+
+        'text-localStorage',
+
+        'setitem',
+        'getitem',
+        'removeitem',
+        'clear',
+        'length',
+        'key',
 
         'text-made_of_fun',
 
