@@ -1262,7 +1262,12 @@ addBlock('get_block_by_blockname', '%1 이름의 블록 불러오기 %2', {
             size: 11,
         },
     ],
-    def: [],
+    def: [
+        {
+            type: 'text',
+            params: ['stop_run']
+        }
+    ],
     map: {
         BLCNAME: 0,
     },
@@ -1404,7 +1409,8 @@ addBlock('-infinity', '-infinity', {
 return -Infinity;
 }, 'basic_string_field')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-addBlock('null', 'null', {
+//그냥 null로 하면 엔트리가 null로 인식해서 블록에 안뜸 그래서 null에 공백 붙임
+addBlock('null ', 'null ', {
     color: c7,
     outerline: o7,
 }, {
@@ -2767,7 +2773,7 @@ Entry.staticBlocks.push({
         'is_positive_or_nagative',
         'infinity',
         '-infinity',
-        'null',
+        'null ',
         'NaN',
 
         'text-project',
@@ -2854,4 +2860,4 @@ const canvas = document.querySelector('#entryCanvas');
 canvas.style.filter = 'invert(0%)';
 Entry.aiAssistantEnable=true;
 
-// d$.get('https://cdn.jsdelivr.net/gh/minirang/MintBlock/block.js')
+// $.get('https://cdn.jsdelivr.net/gh/minirang/MintBlock/block.js')
