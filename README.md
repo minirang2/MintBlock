@@ -6,7 +6,7 @@
 사용법: 
 1. 엔트리 작품만들기 페이지
 2. F12 ==> 콘솔
-3. 
+3. 복사 붙여넣기
 ```javascript
 $.get('https://raw.githack.com/minirang/MintBlock/main/block.js')
 ```
