@@ -756,6 +756,67 @@ addBlock('prompt', '%1 메시지로 프롬프트 창을 띄웠을때 대답', {
 const content = script.getValue('CONTENT', script);
 return prompt(content);
 }, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('css', '요소 %1 을 선택하고 CSS %2 를 %3 으로 정하기 %4', {
+    color: c1,
+    outerline: o1,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string'
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['#entryCanvas']
+        },
+        {
+            type: 'text',
+            params: ['opacity']
+        },
+        {
+            type: 'text',
+            params: ['0.5']
+        },
+    ],
+    map: {
+        CONTENT: 0,
+        STYLENAME: 1,
+        DETAIL: 2,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+const stylename = script.getValue('STYLENAME', script);
+const detail = script.getValue('DETAIL', script);
+const selected = document.querySelector(content);
+selected.style[stylename] = detail;
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('undefined', 'undefined', {
+    color: c1,
+    outerline: o1,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+return undefined;
+}, 'basic_string_field')
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-extend_entry_functions', '%1', {
   color: EntryStatic.colorSet.common.TRANSPARENT,
@@ -1273,7 +1334,12 @@ addBlock('get_block_by_blockname', '%1 이름의 블록 불러오기 %2', {
     },
 }, 'text', (sprite, script) => {
 const blcname = script.getValue('BLCNAME', script);
-const project = Entry.exportProject(); const content = JSON.parse(project.objects[0].script); content[0][0].type = blcname; project.objects[0].script = JSON.stringify(content); Entry.clearProject(); Entry.loadProject(project);
+const project = Entry.exportProject();
+const content = JSON.parse(project.objects[0].script);
+content[0][0].type = blcname;
+project.objects[0].script = JSON.stringify(content);
+Entry.clearProject(); Entry.loadProject(project);
+console.log(`블록 ${blcname}(이)가 불러와졌습니다.`);
 })
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-calc', '%1', {
@@ -1387,51 +1453,6 @@ if (type === "LCM") {
 }
 }, 'basic_string_field')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-addBlock('infinity', 'infinity', {
-    color: c7,
-    outerline: o7,
-}, {
-    params: [],
-    def: [],
-    map: {},
-}, 'text', (sprite, script) => {
-return Infinity;
-}, 'basic_string_field')
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-addBlock('-infinity', '-infinity', {
-    color: c7,
-    outerline: o7,
-}, {
-    params: [],
-    def: [],
-    map: {},
-}, 'text', (sprite, script) => {
-return -Infinity;
-}, 'basic_string_field')
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//그냥 null로 하면 엔트리가 null로 인식해서 블록에 안뜸 그래서 null에 공백 붙임
-addBlock('null ', 'null ',{
-    color: c7,
-    outerline: o7,
-}, {
-    params: [],
-    def: [],
-    map: {},
-}, 'text', (sprite, script) => {
-return null;
-}, 'basic_string_field')
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-addBlock('NaN', 'NaN', {
-    color: c7,
-    outerline: o7,
-}, {
-    params: [],
-    def: [],
-    map: {},
-}, 'text', (sprite, script) => {
-return NaN;
-}, 'basic_string_field')
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('is_positive_or_nagative', '%1 이 %2 인가?', {
     color: c7,
     outerline: o7,
@@ -1477,6 +1498,86 @@ else {
     }
 }
 }, 'basic_boolean_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('minus', '- %1', {
+    color: c7,
+    outerline: o7,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string'
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: [5]
+        }
+    ],
+    map: {
+        CONTENT: 0,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+return content * -1;
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('infinity', 'infinity', {
+    color: c7,
+    outerline: o7,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+return Infinity;
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('-infinity', '-infinity', {
+    color: c7,
+    outerline: o7,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+return -Infinity;
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('-0', '-0', {
+    color: c7,
+    outerline: o7,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+return -0;
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//그냥 null로 하면 엔트리가 null로 인식해서 블록에 안뜸 그래서 null에 공백 붙임
+addBlock('null ', 'null ', {
+    color: c7,
+    outerline: o7,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+return null;
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('NaN', 'NaN', {
+    color: c7,
+    outerline: o7,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+return NaN;
+}, 'basic_string_field')
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-project', '%1', {
   color: EntryStatic.colorSet.common.TRANSPARENT,
@@ -2254,6 +2355,21 @@ else {
 }
 }, 'basic_string_field')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('text-iframe', '%1', {
+  color: EntryStatic.colorSet.common.TRANSPARENT,
+}, {
+  params: [
+    {
+        type: 'Text',
+        text: 'iframe',
+        align: 'center',
+        color: EntryStatic.colorSet.common.TEXT,
+    }
+],
+}, 'text', () => {
+
+}, 'basic_text')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-localStorage', '%1', {
   color: EntryStatic.colorSet.common.TRANSPARENT,
 }, {
@@ -2418,6 +2534,21 @@ const index = script.getValue('INDEX', script);
 return window.localStorage.key(index)
 }, 'basic_string_field')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('text-fetch', '%1', {
+  color: EntryStatic.colorSet.common.TRANSPARENT,
+}, {
+  params: [
+    {
+        type: 'Text',
+        text: 'fetch',
+        align: 'center',
+        color: EntryStatic.colorSet.common.TEXT,
+    }
+],
+}, 'text', () => {
+
+}, 'basic_text')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-made_of_fun', '%1', {
   color: EntryStatic.colorSet.common.TRANSPARENT,
 }, {
@@ -2553,6 +2684,8 @@ Entry.staticBlocks.push({
         'trim',
         'unicode',
         'prompt',
+        'css',
+        'undefined',
 
         'text-extend_entry_functions',
 
@@ -2578,8 +2711,10 @@ Entry.staticBlocks.push({
         'power',
         'LCM_LCF',
         'is_positive_or_nagative',
+        'minus',
         'infinity',
         '-infinity',
+        '-0',
         'null ',
         'NaN',
 
@@ -2649,8 +2784,8 @@ color: #ffffffff;
 } </style>
 `)
 $('#entryCategoryMintBlocks').append('민트블록')
-alert("민트블록 로딩 완료!");
 console.log('%c 민트블록 로딩 완료!', 'color: #15d8aeff; font-weight: bold; font-size: 50px; font-family: Arial;');
 console.log('%c 제작자: 서울민트초코', 'color: #15d8aeff; font-weight: bold; font-size: 20px; font-family: Arial;');
 const canvas = document.querySelector('#entryCanvas');
 canvas.style.filter = 'invert(0%)';
+Entry.aiAssistantEnable=true;
