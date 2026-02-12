@@ -756,6 +756,56 @@ addBlock('prompt', '%1 메시지로 프롬프트 창을 띄웠을때 대답', {
 const content = script.getValue('CONTENT', script);
 return prompt(content);
 }, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('css', '요소 %1 을 선택하고 CSS %2 를 %3 으로 정하기 %4', {
+    color: c1,
+    outerline: o1,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string'
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['#entryCanvas']
+        },
+        {
+            type: 'text',
+            params: ['opacity']
+        },
+        {
+            type: 'text',
+            params: ['0.5']
+        },
+    ],
+    map: {
+        CONTENT: 0,
+        STYLENAME: 1,
+        DETAIL: 2,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+const stylename = script.getValue('STYLENAME', script);
+const detail = script.getValue('DETAIL', script);
+const selected = document.querySelector(content);
+selected.style[stylename] = detail;
+})
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-extend_entry_functions', '%1', {
   color: EntryStatic.colorSet.common.TRANSPARENT,
@@ -1273,7 +1323,12 @@ addBlock('get_block_by_blockname', '%1 이름의 블록 불러오기 %2', {
     },
 }, 'text', (sprite, script) => {
 const blcname = script.getValue('BLCNAME', script);
-const project = Entry.exportProject(); const content = JSON.parse(project.objects[0].script); content[0][0].type = blcname; project.objects[0].script = JSON.stringify(content); Entry.clearProject(); Entry.loadProject(project);
+const project = Entry.exportProject();
+const content = JSON.parse(project.objects[0].script);
+content[0][0].type = blcname;
+project.objects[0].script = JSON.stringify(content);
+Entry.clearProject(); Entry.loadProject(project);
+console.log(`블록 ${blcname}(이)가 불러와졌습니다.`);
 })
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-calc', '%1', {
@@ -2568,6 +2623,169 @@ const index = script.getValue('INDEX', script);
 return window.localStorage.key(index)
 }, 'basic_string_field')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('text-fetch', '%1', {
+  color: EntryStatic.colorSet.common.TRANSPARENT,
+}, {
+  params: [
+    {
+        type: 'Text',
+        text: 'fetch',
+        align: 'center',
+        color: EntryStatic.colorSet.common.TEXT,
+    }
+],
+}, 'text', () => {
+
+}, 'basic_text')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const c9 = '#ff6f00'
+const o9 = '#cc5c00'
+addBlock('ip', '자신의 ip주소 값', {
+    color: c9,
+    outerline: o9,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', async (sprite, script) => {
+return (await(await fetch("//httpbin.org/get")).json()).origin
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('get', '가져오기 %1', {
+    color: c9,
+    outerline: o9,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['https://playentry.org/api/servertime']
+        }
+    ],
+    map: {
+        CONTENT: 0,
+    },
+}, 'text', async (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+const response = await fetch(content);
+if (!response.ok) {
+    return "요청 실패: " + response.status;
+}
+return response.text();
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('post', 'POST 요청 %1 데이터 %2', {
+    color: c9,
+    outerline: o9,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['https://jsonplaceholder.typicode.com/posts']
+        },
+        {
+            type: 'text',
+            params: ['{"title":"Hello","body":"World","userId":1}']
+        }
+    ],
+    map: {
+        URL: 0,
+        DATA: 1,
+    },
+}, 'text', async (sprite, script) => {
+const url = script.getValue('URL', script);
+const data = script.getValue('DATA', script);
+try {
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: data
+    });
+    if (!response.ok) {
+        return "요청 실패: " + response.status;
+    }
+    const result = await response.text();
+    return result;
+} catch (error) {
+    return "에러 발생: " + error.message;
+}
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('post_without_respond', 'POST 요청 %1 데이터 %2 %3', {
+    color: c9,
+    outerline: o9,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_signal.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['https://jsonplaceholder.typicode.com/posts']
+        },
+        {
+            type: 'text',
+            params: ['{"title":"Hello","body":"World","userId":1}']
+        }
+    ],
+    map: {
+        URL: 0,
+        DATA: 1,
+    },
+}, 'text', async (sprite, script) => {
+const url = script.getValue('URL', script);
+const data = script.getValue('DATA', script);
+let bodyData;
+try {
+     bodyData = JSON.stringify(JSON.parse(data));
+} catch {
+    bodyData = JSON.stringify({ data: data });
+}
+try {
+    await fetch(url, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: bodyData
+    });
+    return;
+} catch (error) {
+    console.error("POST 전송 실패:", error.message);
+    return;
+}
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-made_of_fun', '%1', {
   color: EntryStatic.colorSet.common.TRANSPARENT,
 }, {
@@ -2746,6 +2964,7 @@ Entry.staticBlocks.push({
         'trim',
         'unicode',
         'prompt',
+        'css',
 
         'text-extend_entry_functions',
 
@@ -2823,6 +3042,13 @@ Entry.staticBlocks.push({
         'clear',
         'length',
         'key',
+
+        'text-fetch',
+
+        'ip',
+        'get',
+        'post',
+        'post_without_respond',
 
         'text-made_of_fun',
 
