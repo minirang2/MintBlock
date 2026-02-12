@@ -2651,6 +2651,38 @@ addBlock('ip', '자신의 ip주소 값', {
 return (await(await fetch("//httpbin.org/get")).json()).origin
 }, 'basic_string_field')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('fetch', 'fetch %1', {
+    color: c9,
+    outerline: o9,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['https://playentry.org/api/servertime']
+        }
+    ],
+    map: {
+        CONTENT: 0,
+    },
+}, 'text', async (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+try {
+    const response = await fetch(content);
+    if (!response.ok) {
+        return "요청 실패: " + response.status;
+    }
+    return await response.text();
+} catch (e) {
+    return "fetch 실패: " + e.message;
+}
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('get', '가져오기 %1', {
     color: c9,
     outerline: o9,
@@ -3046,6 +3078,7 @@ Entry.staticBlocks.push({
         'text-fetch',
 
         'ip',
+        'fetch',
         'get',
         'post',
         'post_without_respond',
