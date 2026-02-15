@@ -1406,9 +1406,9 @@ fileInput.addEventListener('change', e => {
         document.querySelectorAll('.entryBlocklyWorkspace, .entryWorkspaceBoard')
             .forEach(el => {
                 el.style.backgroundImage = `url("${selectedImage}")`;
-                el.style.backgroundSize = 'cover';
-                el.style.backgroundPosition = 'center';
-                el.style.backgroundRepeat = 'no-repeat';
+                el.style.backgroundSize = '50px 50px';
+                el.style.backgroundPosition = '0 0';
+                el.style.backgroundRepeat = 'repeat';
             });
     };
     reader.readAsDataURL(file);
@@ -1419,9 +1419,9 @@ new MutationObserver(() => {
     document.querySelectorAll('.entryBlocklyWorkspace, .entryWorkspaceBoard')
         .forEach(el => {
             el.style.backgroundImage = `url("${selectedImage}")`;
-            el.style.backgroundSize = 'cover';
-            el.style.backgroundPosition = 'center';
-            el.style.backgroundRepeat = 'no-repeat';
+            el.style.backgroundSize = '48px 48px';
+            el.style.backgroundPosition = '0 0';
+            el.style.backgroundRepeat = 'repeat';
         });
 }).observe(document.body, { childList: true, subtree: true });
 })
