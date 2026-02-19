@@ -1718,6 +1718,130 @@ addBlock('minvalue', 'Number.MIN_VALUE', {
 }, 'text', (sprite, script) => {
 return Number.MIN_VALUE;
 }, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('pi', 'pi', {
+    color: c7,
+    outerline: o7,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+return Math.PI;
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('e', 'e', {
+    color: c7,
+    outerline: o7,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+return Math.E;
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('trig_functions', '%1 의 %2 (라디안)', {
+    color: c7,
+    outerline: o7,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string'
+        },
+        {
+            type: 'Dropdown',
+            options: [
+                ['사인', 'sin'],
+                ['코사인', 'cos'],
+                ['탄젠트', 'tan'],
+                ['코시컨트', 'csc'],
+                ['시컨트', 'sec'],
+                ['코탄젠트', 'cot'],
+                ['아크사인', 'arcsin'],
+                ['아크코사인', 'arccos'],
+                ['아크탄젠트', 'arctan'],
+                ['아크코시컨트', 'arccsc'],
+                ['아크시컨트', 'arcsec'],
+                ['아크코탄젠트', 'arccot'],
+                ['사인에이치', 'sinh'],
+                ['코사인에이치', 'cosh'],
+                ['탄젠트에이치', 'tanh'],
+                ['코시컨트에이치', 'csch'],
+                ['시컨트에이치', 'sech'],
+                ['코탄젠트에이치', 'coth'],
+                ['아르사인에이치', 'arsinh'],
+                ['아르코사인에이치', 'arcosh'],
+                ['아르탄젠트에이치', 'artanh'],
+                ['아르코시컨트에이치', 'arcsch'],
+                ['아르시컨트에이치', 'arsech'],
+                ['아르코탄젠트에이치', 'arcoth'],
+            ],
+            fontSize: 11,
+            arrowColor: '#da729a',
+            value: 'arcoth'
+        },
+    ],
+    def: [],
+    map: {
+        CONTENT: 0,
+        TYPE: 1,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+const type = script.getValue('TYPE', script);
+switch (type) {
+    case 'sin':
+        return Math.sin(content);
+    case 'cos':
+        return Math.cos(content);
+    case 'tan':
+        return Math.tan(content);
+    case 'csc':
+        return 1 / Math.sin(content);
+    case 'sec':
+        return 1 / Math.cos(content);
+    case 'cot':
+        return 1 / Math.tan(content);
+    case 'arcsin':
+        return Math.asin(content);
+    case 'arccos':
+        return Math.acos(content);
+    case 'arctan':
+        return Math.atan(content);
+    case 'arccsc':
+        return Math.asin(1 / content);
+    case 'arcsec':
+        return Math.acos(1 / content);
+    case 'arccot':
+        return Math.atan(1 / content);
+    case 'sinh':
+        return Math.sinh(content);
+    case 'cosh':
+        return Math.cosh(content);
+    case 'tanh':
+        return Math.tanh(content);
+    case 'csch':
+        return 1 / Math.sinh(content);
+    case 'sech':
+        return 1 / Math.cosh(content);
+    case 'coth':
+        return 1 / Math.tanh(content);
+    case 'arsinh':
+        return Math.asinh(content);
+    case 'arcosh':
+        return Math.acosh(content);
+    case 'artanh':
+        return Math.atanh(content);
+    case 'arcsch':
+        return Math.asinh(1 / content);
+    case 'arsech':
+        return Math.acosh(1 / content);
+    case 'arcoth':
+        return Math.atanh(1 / content);
+}
+}, 'basic_string_field')
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-project', '%1', {
   color: EntryStatic.colorSet.common.TRANSPARENT,
@@ -3220,6 +3344,9 @@ Entry.staticBlocks.push({
         'NaN',
         'maxvalue',
         'minvalue',
+        'pi',
+        'e',
+        'trig_functions',
 
         'text-project',
 
