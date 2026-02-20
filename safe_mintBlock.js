@@ -340,6 +340,21 @@ const addBlock = (blockname, template, color, params, _class, func, skeleton = '
 }
 //여기까지가 스페셜 블록에서 퍼온거
 //////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('text-info', '%1', {
+  color: EntryStatic.colorSet.common.TRANSPARENT,
+}, {
+  params: [
+    {
+        type: 'Text',
+        text: '민트블록 안전버전은 iframe, fetch, eval\n블록이 제거되었으며,URL open 블록도\n엔트리 리다이렉트 페이지를 사용했습니다.',
+        align: 'center',
+        color: EntryStatic.colorSet.common.TEXT,
+    }
+],
+}, 'text', () => {
+
+}, 'basic_text')
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-javascript_functions', '%1', {
   color: EntryStatic.colorSet.common.TRANSPARENT,
 }, {
@@ -1844,21 +1859,6 @@ switch (type) {
 }
 }, 'basic_string_field')
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-addBlock('text-info', '%1', {
-  color: EntryStatic.colorSet.common.TRANSPARENT,
-}, {
-  params: [
-    {
-        type: 'Text',
-        text: '민트블록 안전버전은 iframe, fetch, eval\n블록이 제거되었으며,URL open 블록도\n엔트리 리다이렉트 페이지를 사용했습니다.',
-        align: 'center',
-        color: EntryStatic.colorSet.common.TEXT,
-    }
-],
-}, 'text', () => {
-
-}, 'basic_text')
-//////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-project', '%1', {
   color: EntryStatic.colorSet.common.TRANSPARENT,
 }, {
@@ -2949,7 +2949,7 @@ window.open('https://playentry.org/profile/683c3803cf1a83502cb03fa4', '_blank');
 Entry.staticBlocks.push({
     category: 'MintBlocks', blocks: [
         'text-info',
-
+        
         'text-javascript_functions',
 
         'console_log',
