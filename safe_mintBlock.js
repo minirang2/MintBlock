@@ -1850,7 +1850,7 @@ addBlock('text-info', '%1', {
   params: [
     {
         type: 'Text',
-        text: '민트블록 안전버전은 iframe, fetch, eval 블록이 제거되었으며,\nURL open 블록도 엔트리 리다이렉트 페이지를 사용했습니다.',
+        text: '민트블록 안전버전은 iframe, fetch, eval\n블록이 제거되었으며,URL open 블록도\n엔트리 리다이렉트 페이지를 사용했습니다.',
         align: 'center',
         color: EntryStatic.colorSet.common.TEXT,
     }
@@ -2949,7 +2949,7 @@ window.open('https://playentry.org/profile/683c3803cf1a83502cb03fa4', '_blank');
 Entry.staticBlocks.push({
     category: 'MintBlocks', blocks: [
         'text-info',
-        
+
         'text-javascript_functions',
 
         'console_log',
