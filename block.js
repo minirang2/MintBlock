@@ -2247,6 +2247,40 @@ Entry.variableContainer.lists_
   .insertValue(num, content);
 })
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('remove_list_value', '%1 이름의 리스트에 %2 번째 항목 삭제하기 %3', {
+    color: c3,
+    outerline: o3,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+            value: '서울민트초코'
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+            value: 1
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_play.svg',
+            size: 11,
+        },
+    ],
+    def: [],
+    map: {
+        NAME: 0,
+        NUM: 1,
+    },
+}, 'text', (sprite, script) => {
+const name = script.getValue('NAME', script);
+const num = script.getValue('NUM', script);
+Entry.variableContainer.lists_
+  .find(list => list.name_ === name)
+  .deleteValue(num);
+})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('add_signal', '%1 이름의 신호 만들기 %2', {
     color: c3,
     outerline: o3,
@@ -3641,6 +3675,7 @@ Entry.staticBlocks.push({
         'add_function',
         'change_viewmode',
         'insert_list',
+        'remove_list_value',
         'project_id',
         'entry_clipboard_length',
         'object_count',
