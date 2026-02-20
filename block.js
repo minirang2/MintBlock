@@ -3270,6 +3270,22 @@ addBlock('ip', '자신의 ip주소 값', {
 return (await(await fetch("//httpbin.org/get")).json()).origin
 }, 'basic_string_field')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('ping', 'ping 값', {
+    color: c9,
+    outerline: o9,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', async (sprite, script) => {
+let t=Date.now();
+try{
+    let r=await fetch('https://playentry.org');
+    return r.ok ? Date.now()-t : "fail "+r.status;
+}catch{
+    return "fail";
+}}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('fetch', 'fetch %1', {
     color: c9,
     outerline: o9,
@@ -3719,6 +3735,7 @@ Entry.staticBlocks.push({
         'text-fetch',
 
         'ip',
+        'ping',
         'fetch',
         'get',
         'post',
