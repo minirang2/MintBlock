@@ -1799,7 +1799,12 @@ addBlock('trig_functions', '%1 의 %2 (라디안)', {
             value: 'arcoth'
         },
     ],
-    def: [],
+    def: [
+        {
+            type: 'text',
+            params: [1]
+        }
+    ],
     map: {
         CONTENT: 0,
         TYPE: 1,
