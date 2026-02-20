@@ -2312,7 +2312,7 @@ addBlock('change_viewmode', '%1 로 뷰모드 변경하기 %2', {
             ],
             fontSize: 11,
             arrowColor: '#8f3c15',
-            value: 'default'
+            value: 'code'
         },
         {
             type: 'Indicator',
