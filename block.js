@@ -1530,6 +1530,67 @@ project.objects[0].script = JSON.stringify(content);
 Entry.clearProject(); Entry.loadProject(project);
 console.log(`블록 ${blcname}(이)가 불러와졌습니다.`);
 })
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('write_entrystory', '엔이글 작성하기 %1 %2', {
+    color: c2,
+    outerline: o2,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/flow_icon.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['테스트']
+        }
+    ],
+    map: {
+        CONTENT: 0,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+const nextData = JSON.parse(
+  document.getElementById("__NEXT_DATA__").innerText
+);
+const csrfToken = nextData.props.initialProps.csrfToken;
+const xToken = nextData.props.pageProps.initialState.common.user.xToken;
+const query = `
+  mutation CREATE_ENTRYSTORY($content: String) {
+    createEntryStory(content: $content) {
+      warning
+    }
+  }
+`;
+const variables = {
+  content: content
+};
+fetch("https://playentry.org/graphql", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "csrf-token": csrfToken,
+    "x-token": xToken
+  },
+  body: JSON.stringify({
+    query,
+    variables
+  })
+})
+.then(res => res.json())
+.then(data => {
+    console.log(data);
+    alert("작성 완료");
+})
+.catch(err => console.error(err));
+});
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-calc', '%1', {
   color: EntryStatic.colorSet.common.TRANSPARENT,
@@ -3659,6 +3720,7 @@ Entry.staticBlocks.push({
         'playground_zoom',
         'playground_background_image',
         'get_block_by_blockname',
+        'write_entrystory',
 
         'text-calc',
 
