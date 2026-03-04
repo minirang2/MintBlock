@@ -1530,67 +1530,6 @@ project.objects[0].script = JSON.stringify(content);
 Entry.clearProject(); Entry.loadProject(project);
 console.log(`블록 ${blcname}(이)가 불러와졌습니다.`);
 })
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-addBlock('write_entrystory', '엔이글 작성하기 %1 %2', {
-    color: c2,
-    outerline: o2,
-}, {
-    params: [
-        {
-            type: 'Block',
-            accept: 'string',
-        },
-        {
-            type: 'Indicator',
-            img: 'block_icon/flow_icon.svg',
-            size: 11,
-        },
-    ],
-    def: [
-        {
-            type: 'text',
-            params: ['테스트']
-        }
-    ],
-    map: {
-        CONTENT: 0,
-    },
-}, 'text', (sprite, script) => {
-const content = script.getValue('CONTENT', script);
-const nextData = JSON.parse(
-  document.getElementById("__NEXT_DATA__").innerText
-);
-const csrfToken = nextData.props.initialProps.csrfToken;
-const xToken = nextData.props.pageProps.initialState.common.user.xToken;
-const query = `
-  mutation CREATE_ENTRYSTORY($content: String) {
-    createEntryStory(content: $content) {
-      warning
-    }
-  }
-`;
-const variables = {
-  content: content
-};
-fetch("https://playentry.org/graphql", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "csrf-token": csrfToken,
-    "x-token": xToken
-  },
-  body: JSON.stringify({
-    query,
-    variables
-  })
-})
-.then(res => res.json())
-.then(data => {
-    console.log(data);
-    alert("작성 완료");
-})
-.catch(err => console.error(err));
-});
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-calc', '%1', {
   color: EntryStatic.colorSet.common.TRANSPARENT,
@@ -3513,6 +3452,360 @@ try {
     return;
 }
 })
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('text-graphql', '%1', {
+  color: EntryStatic.colorSet.common.TRANSPARENT,
+}, {
+  params: [
+    {
+        type: 'Text',
+        text: '엔트리 graphql POST 요청',
+        align: 'center',
+        color: EntryStatic.colorSet.common.TEXT,
+    }
+],
+}, 'text', () => {
+
+}, 'basic_text')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const c10 = "#244d8b";
+const o10 = "#1e3658";
+addBlock('write_entrystory', '엔이글 작성하기 %1 %2', {
+    color: c10,
+    outerline: o10,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_pose.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['테스트']
+        }
+    ],
+    map: {
+        CONTENT: 0,
+    },
+}, 'text', (sprite, script) => {
+const content = script.getValue('CONTENT', script);
+const nextData = JSON.parse(
+  document.getElementById("__NEXT_DATA__").innerText
+);
+const csrfToken = nextData.props.initialProps.csrfToken;
+const xToken = nextData.props.pageProps.initialState.common.user.xToken;
+const query = `
+  mutation CREATE_ENTRYSTORY($content: String) {
+    createEntryStory(content: $content) {
+      warning
+    }
+  }
+`;
+const variables = {
+  content: content
+};
+fetch("https://playentry.org/graphql", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "csrf-token": csrfToken,
+    "x-token": xToken
+  },
+  body: JSON.stringify({
+    query,
+    variables
+  })
+})
+.then(res => res.json())
+.then(data => {
+    console.log(data);
+    alert("작성 완료");
+})
+.catch(err => console.error(err));
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('change_nickname', '계정 닉네임을 %1 로 바꾸기 %2', {
+    color: c10,
+    outerline: o10,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_pose.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['엔유저0123']
+        }
+    ],
+    map: {
+        NICK: 0,
+    },
+}, 'text', (sprite, script) => {
+const nick = script.getValue('NICK', script);
+const nextData = JSON.parse(
+  document.getElementById("__NEXT_DATA__").innerText
+);
+const csrfToken = nextData.props.initialProps.csrfToken;
+const xToken = nextData.props.pageProps.initialState.common.user.xToken;
+const query = `
+  mutation CHANGE_NICKNAME($nickname: String!) {
+    changeNickname(nickname: $nickname) {
+      status
+      result
+    }
+  }
+`;
+const variables = {
+  nickname: nick
+};
+if (!confirm("닉네임을 바꿀까요?")) throw new Error("취소됬습니다.");
+fetch("https://playentry.org/graphql", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "csrf-token": csrfToken,
+    "x-token": xToken
+  },
+  body: JSON.stringify({
+    query,
+    variables
+  })
+})
+.then(res => res.json())
+.then(data => {
+    console.log(data);
+    alert("닉네임 교체 완료");
+})
+.catch(err => console.error(err));
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('follow_user', '%1 id를 가진 유저를 팔로우하기 %2', {
+    color: c10,
+    outerline: o10,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_pose.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['62d00ecb8b49cc01e2b68603']
+        }
+    ],
+    map: {
+        PROFILEID: 0,
+    },
+}, 'text', (sprite, script) => {
+const profileID = script.getValue('PROFILEID', script);
+const nextData = JSON.parse(
+  document.getElementById("__NEXT_DATA__").innerText
+);
+const csrfToken = nextData.props.initialProps.csrfToken;
+const xToken = nextData.props.pageProps.initialState.common.user.xToken;
+const query = `
+  mutation FOLLOW($user: String) {
+    follow(user: $user) {
+      status
+    }
+  }
+`;
+const variables = {
+  user: profileID
+};
+fetch("https://playentry.org/graphql", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "csrf-token": csrfToken,
+    "x-token": xToken
+  },
+  body: JSON.stringify({
+    query,
+    variables
+  })
+})
+.then(res => res.json())
+.then(data => {
+    console.log(data);
+    alert("팔로우 완료");
+})
+.catch(err => console.error(err));
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('login', 'id %1 pw %2 로 엔트리 로그인하고 %3 %4', {
+    color: c10,
+    outerline: o10,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Dropdown',
+            options: [
+                ['기억하기', 'true'],
+                ['기억하지 않기', 'false'],
+            ],
+            fontSize: 11,
+            arrowColor: '#1b2f4e',
+            value: 'true'
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_pose.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['id를 입력하세요']
+        },
+        {
+            type: 'text',
+            params: ['비밀번호를 입력하세요']
+        }
+    ],
+    map: {
+        ID: 0,
+        PW: 1,
+        REMEMBERME: 2,
+    },
+}, 'text', (sprite, script) => {
+const id = script.getValue('ID', script);
+const pw = script.getValue('PW', script);
+const rememberme = script.getValue('REMEMBERME', script);
+const nextData = JSON.parse(
+  document.getElementById("__NEXT_DATA__").innerText
+);
+const csrfToken = nextData.props.initialProps.csrfToken;
+const query = `
+  mutation SIGNIN_BY_USERNAME(
+    $username: String!, 
+    $password: String!, 
+    $rememberme: Boolean, 
+    $captchaValue: String, 
+    $captchaKey: String,
+    $captchaType: String
+  ) {
+    signinByUsername (
+      username: $username, 
+      password: $password, 
+      rememberme: $rememberme, 
+      captchaValue: $captchaValue, 
+      captchaKey: $captchaKey,
+      captchaType: $captchaType
+    ) {
+            
+  id
+  username
+  nickname
+  role
+  isEmailAuth
+  isSnsAuth
+  isPhoneAuth
+  studentTerm
+  status {
+    userStatus
+  }
+    profileImage {
+        
+  id
+  name
+  label {
+        
+  ko
+  en
+  ja
+  vn
+
+  }
+  filename
+  imageType
+  dimension {
+        
+  width
+  height
+
+  }
+  trimmed {
+    filename
+    width
+    height
+  }
+
+  }
+  banned {
+    username
+    nickname
+    reason
+    bannedCount
+    bannedType
+    projectId
+    startDate
+    userReflect {
+      status
+      endDate
+    }
+  }
+  isProfileBlocked
+  created
+
+    }
+  }
+`;
+const variables = {
+  password: pw,
+  username: id,
+  rememberme: rememberme
+};
+if (!confirm("로그인할까요?")) throw new Error("취소됬습니다.");
+fetch("https://playentry.org/graphql", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "csrf-token": csrfToken,
+  },
+  body: JSON.stringify({
+    query,
+    variables
+  })
+})
+.then(res => res.json())
+.then(data => {
+    console.log(data);
+    alert(`${id}(으)로 로그인 완료. 아이디와 비밀번호는 로그인 행위를 제외하고는 절대 서울민트초코가\n수집 / 이용 / 유포 / 판매 / 재사용 및 그 어떠한 행위도 하지 않습니다.`);
+})
+.catch(err => console.error(err));
+});
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-made_of_fun', '%1', {
   color: EntryStatic.colorSet.common.TRANSPARENT,
@@ -3720,7 +4013,6 @@ Entry.staticBlocks.push({
         'playground_zoom',
         'playground_background_image',
         'get_block_by_blockname',
-        'write_entrystory',
 
         'text-calc',
 
@@ -3802,6 +4094,12 @@ Entry.staticBlocks.push({
         'get',
         'post',
         'post_without_respond',
+
+        'text-graphql',
+        'write_entrystory',
+        'change_nickname',
+        'follow_user',
+        'login',
 
         'text-made_of_fun',
 
