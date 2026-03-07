@@ -822,6 +822,40 @@ const detail = script.getValue('DETAIL', script);
 const selected = document.querySelector(content);
 selected.style[stylename] = detail;
 })
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('pointer_lock', '포인터 %1 %2', {
+    color: c1,
+    outerline: o1,
+}, {
+    params: [
+        {
+            type: 'Dropdown',
+            options: [
+                ['잠그기', 'lock'],
+                ['잠금해제', 'unlock'],
+            ],
+            fontSize: 11,
+            arrowColor: '#27aa7eff',
+            value: 'lock'
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon.svg',
+            size: 11,
+        },
+    ],
+    def: [],
+    map: {
+        TYPE: 0
+    },
+}, 'text', (sprite, script) => {
+const type = script.getValue('TYPE', script);
+if (type === 'lock') {
+    document.body.requestPointerLock();
+} else {
+    document.exitPointerLock();
+}
+})
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('undefined', 'undefined', {
     color: c1,
@@ -832,6 +866,17 @@ addBlock('undefined', 'undefined', {
     map: {},
 }, 'text', (sprite, script) => {
 return undefined;
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('enter', '줄바꿈', {
+    color: c1,
+    outerline: o1,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+return '\n';
 }, 'basic_string_field')
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-extend_entry_functions', '%1', {
@@ -1022,7 +1067,7 @@ addBlock('if_scene_is', '만약 현재 장면이 %1 인가?', {
 }, {
     params: [
         {
-            type: 'DropdownDynamic', //이런것도 있었네 menuName을 입력하면 그에 맞게 자동으로 드롭다운 항목이 늘어나고 줄어드는 구조
+            type: 'DropdownDynamic', // menuName을 입력하면 그에 맞게 자동으로 드롭다운 항목이 늘어나고 줄어드는 구조
             value: null,
             menuName: 'scenes',
             fontSize: 11,
@@ -1810,6 +1855,17 @@ addBlock('e', 'e', {
     map: {},
 }, 'text', (sprite, script) => {
 return Math.E;
+}, 'basic_string_field')
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('golden_ratio', '황금비', {
+    color: c7,
+    outerline: o7,
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+return (1 + Math.sqrt(5)) / 2;
 }, 'basic_string_field')
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('trig_functions', '%1 의 %2 (라디안)', {
@@ -3655,6 +3711,213 @@ fetch("https://playentry.org/graphql", {
 .catch(err => console.error(err));
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('update_project', '%1 id를 가진 작품을 업데이트하기: 제목을 %2 (으)로 변경하고, 작품소개를 %3 (으)로 변경하고, 사용법을 %4 (으)로 변경하고, 참고사항을 %5 (으)로 변경하고, 공개 여부를 %6 로 정하고, 댓글 사용 여부를 %7 로 정하고 카테고리를 %8 로 정하고 태그는 프롬프트에서 입력받기 %9', {
+    color: c10,
+    outerline: o10,
+}, {
+    params: [
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Block',
+            accept: 'string',
+        },
+        {
+            type: 'Dropdown',
+            options: [
+                ['공개', 'true'],
+                ['비공개', 'false'],
+            ],
+            fontSize: 11,
+            arrowColor: '#193050',
+            value: 'true'
+        },
+        {
+            type: 'Dropdown',
+            options: [
+                ['사용', 'true'],
+                ['미사용', 'false'],
+            ],
+            fontSize: 11,
+            arrowColor: '#193050',
+            value: 'true'
+        },
+        {
+            type: 'Dropdown',
+            options: [
+                ['게임', 'game'],
+                ['생활과 도구', 'living'],
+                ['스토리텔링', 'storytelling'],
+                ['예술', 'arts'],
+                ['지식공유', 'knowledge'],
+                ['기타', 'etc'],
+            ],
+            fontSize: 11,
+            arrowColor: '#193050',
+            value: 'etc'
+        },
+        {
+            type: 'Indicator',
+            img: 'block_icon/start_icon_pose.svg',
+            size: 11,
+        },
+    ],
+    def: [
+        {
+            type: 'text',
+            params: ['작품 id를 입력하세요']
+        },
+        {
+            type: 'text',
+            params: ['제목']
+        },
+        {
+            type: 'text',
+            params: ['작품소개']
+        },
+        {
+            type: 'text',
+            params: ['사용법']
+        },
+        {
+            type: 'text',
+            params: ['참고사항']
+        }
+    ],
+    map: {
+        ID: 0,
+        TITLE: 1,
+        INTRO: 2,
+        INTRO2: 3,
+        INTRO3: 4,
+        OPEN: 5,
+        COMMENT: 6,
+        CATEGORY: 7,
+    },
+}, 'text', (sprite, script) => {
+const id = script.getValue('ID', script);
+const title = script.getValue('TITLE', script);
+const intro = script.getValue('INTRO', script);
+const intro2 = script.getValue('INTRO2', script);
+const intro3 = script.getValue('INTRO3', script);
+const open = script.getValue('OPEN', script);
+const comment = script.getValue('COMMENT', script);
+const category = script.getValue('CATEGORY', script);
+const nextData = JSON.parse(
+  document.getElementById("__NEXT_DATA__").innerText
+);
+const csrfToken = nextData.props.initialProps.csrfToken;
+const xToken = nextData.props.pageProps.initialState.common.user.xToken;
+const query = `
+  mutation UPDATE_PROJECT(  
+  $id: ID!
+  $name: String
+  $speed: Int
+  $objects: JSON
+  $variables: JSON
+  $messages: JSON
+  $functions: JSON
+  $tables: JSON
+  $scenes: JSON
+  $blockLog: JSON
+  $interface: JSON
+  $aiUtilizeBlocks: JSON
+  $expansionBlocks: JSON
+  $hardwareLiteBlocks: JSON
+  $thumb: String
+  $categoryCode: String
+  $description: String
+  $description2: String
+  $description3: String
+  $isopen: Boolean
+  $showComment: Boolean
+  $isPracticalCourse: Boolean
+  $group: ID
+  $learning: String
+  $tags: [String]
+  ) {
+      updateProject(
+  id: $id
+  name: $name
+  speed: $speed
+  objects: $objects
+  variables: $variables
+  messages: $messages
+  functions: $functions
+  tables: $tables
+  scenes: $scenes
+  blockLog: $blockLog
+  interface: $interface
+  aiUtilizeBlocks: $aiUtilizeBlocks
+  expansionBlocks: $expansionBlocks
+  hardwareLiteBlocks: $hardwareLiteBlocks
+  thumb: $thumb
+  categoryCode: $categoryCode
+  description: $description
+  description2: $description2
+  description3: $description3
+  isopen: $isopen
+  showComment: $showComment
+  isPracticalCourse: $isPracticalCourse
+  group: $group
+  learning: $learning
+  tags: $tags
+      ) {
+  status
+  result
+      }
+  }
+`;
+const variables = {
+  categoryCode: category,
+  description: intro,
+  description2: intro2,
+  description3: intro3,
+  id: id,
+  isopen: open,
+  name: title,
+  showComment: comment,
+  tags: (() => {
+    const arr = [];
+    while (true) {
+      const tag = prompt("태그 입력 (하나만)");
+      if (tag !== null) arr.push(tag);
+      if (!confirm("태그를 계속 입력하시겠습니까?")) break;
+    }
+    return arr;
+  })()
+}
+fetch("https://playentry.org/graphql", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "csrf-token": csrfToken,
+    "x-token": xToken
+  },
+  body: JSON.stringify({
+    query,
+    variables
+  })
+})
+.then(res => res.json())
+.then(data => console.log(data))
+.catch(err => console.error(err));
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('login', 'id %1 pw %2 로 엔트리 로그인하고 %3 %4', {
     color: c10,
     outerline: o10,
@@ -3940,6 +4203,19 @@ addBlock('text-dangerous_blocks', '%1', {
 
 }, 'basic_text')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+addBlock('lag', '랙', {
+    color: '#d90909',
+    outerline: '#801717ff',
+}, {
+    params: [],
+    def: [],
+    map: {},
+}, 'text', (sprite, script) => {
+while (true) {
+    while (true) {};
+}
+})
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('run_javascript_code', '[위험!] 자바스크립트 코드 %1 실행하기', {
     color: '#d90909',
     outerline: '#801717ff',
@@ -3988,7 +4264,9 @@ Entry.staticBlocks.push({
         'unicode',
         'prompt',
         'css',
+        'pointer_lock',
         'undefined',
+        'enter',
 
         'text-extend_entry_functions',
 
@@ -4029,6 +4307,7 @@ Entry.staticBlocks.push({
         'minvalue',
         'pi',
         'e',
+        'golden_ratio',
         'trig_functions',
 
         'text-project',
@@ -4099,6 +4378,7 @@ Entry.staticBlocks.push({
         'write_entrystory',
         'change_nickname',
         'follow_user',
+        'update_project',
         'login',
 
         'text-made_of_fun',
@@ -4109,9 +4389,11 @@ Entry.staticBlocks.push({
         'open_maker_mypage',
         'helpers_aqu3180',
         'helpers_경찰악어씨',
+        'right_click',
 
         'text-dangerous_blocks',
 
+        'lag',
         'run_javascript_code',
     ]
 });
