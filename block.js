@@ -4205,7 +4205,6 @@ const effects = {}
 function getActiveEffectsCount() {
   return Object.keys(effects).length;
 }
-
 function chaos(elem) {
   const el = document.querySelector(elem)
   effects.chaos = setInterval(() => {
@@ -4216,7 +4215,6 @@ function chaos(elem) {
     el.style.transform = `translate(${x}px, ${y}px) rotate(${r}deg) scale(${s})`
   }, 80)
 }
-
 function jellyText(elem) {
   const el = document.querySelector(elem)
   let t = 0
@@ -4227,7 +4225,6 @@ function jellyText(elem) {
     el.style.transform = `scale(${sx}, ${sy})`
   }, 30)
 }
-
 function rotate3D(elem, speed = 1) {
   const el = document.querySelector(elem)
   let rx = 0
@@ -4239,7 +4236,6 @@ function rotate3D(elem, speed = 1) {
     el.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`
   }, 16)
 }
-
 function rainbowEffect(elem, speed = 1) {
   const el = document.querySelector(elem)
   let hue = 0
@@ -4248,7 +4244,6 @@ function rainbowEffect(elem, speed = 1) {
     el.style.filter = `hue-rotate(${hue}deg) saturate(2)`
   }, 16)
 }
-
 function float(elem) {
   const el = document.querySelector(elem)
   let t = 0
@@ -4258,7 +4253,6 @@ function float(elem) {
     el.style.transform = `translateY(${y}px)`
   }, 30)
 }
-
 function perspectiveTilt(elem) {
   const el = document.querySelector(elem)
   const handleMove = e => {
@@ -4275,7 +4269,6 @@ function perspectiveTilt(elem) {
     stop: () => window.removeEventListener("mousemove", handleMove)
   }
 }
-
 function blackHole(elem) {
   const el = document.querySelector(elem)
   let s = 1
@@ -4288,7 +4281,6 @@ function blackHole(elem) {
     if (s < 0.01) stopEffect("blackHole")
   }, 30)
 }
-
 function strobe(elem) {
   const el = document.querySelector(elem)
   effects.strobe = setInterval(() => {
@@ -4297,7 +4289,6 @@ function strobe(elem) {
     el.style.filter = visible ? "invert(100%)" : "none"
   }, 40)
 }
-
 function earthquake(elem) {
   const el = document.querySelector(elem)
   effects.earthquake = setInterval(() => {
@@ -4306,7 +4297,6 @@ function earthquake(elem) {
     document.el.style.transform = `translate(${x}px, ${y}px)`
   }, 20)
 }
-
 function vhsGlitch(elem) {
   const el = document.querySelector(elem)
   effects.vhsGlitch = setInterval(() => {
@@ -4317,7 +4307,6 @@ function vhsGlitch(elem) {
     el.style.filter = `hue-rotate(${Math.random() * 360}deg) brightness(1.5)`
   }, 40)
 }
-
 function meltDown(elem) {
   const el = document.querySelector(elem)
   let y = 0
@@ -4329,7 +4318,6 @@ function meltDown(elem) {
     if (y > 500) stopEffect("meltDown")
   }, 20)
 }
-
 function pixelStorm(elem) {
   const el = document.querySelector(elem)
   effects.pixelStorm = setInterval(() => {
@@ -4340,7 +4328,6 @@ function pixelStorm(elem) {
     el.style.textShadow = shadow
   }, 50)
 }
-
 function hyperZoom(elem) {
   const el = document.querySelector(elem)
   let t = 0
@@ -4351,7 +4338,6 @@ function hyperZoom(elem) {
     el.style.filter = `blur(${Math.abs(s)}px)`
   }, 30)
 }
-
 function vortexPortal(elem) {
   const el = document.querySelector(elem)
   let r = 0
@@ -4363,7 +4349,6 @@ function vortexPortal(elem) {
     el.style.filter = `hue-rotate(${r}deg) blur(${Math.abs(d) / 10}px)`
   }, 20)
 }
-
 function mirrorDimension(elem) {
   const el = document.querySelector(elem)
   let t = 0
@@ -4375,7 +4360,6 @@ function mirrorDimension(elem) {
     el.style.filter = `hue-rotate(${t * 10}deg) contrast(2)`
   }, 50)
 }
-
 function ghostTrail(elem) {
   const el = document.querySelector(elem)
   let t = 0
@@ -4392,7 +4376,6 @@ function ghostTrail(elem) {
     el.style.transform = `translate(${Math.sin(t) * 10}px, ${Math.cos(t) * 10}px)`
   }, 30)
 }
-
 function pageShatter() {
   const pieces = []
   document.querySelectorAll("body *").forEach(el => {
@@ -4413,7 +4396,6 @@ function pageShatter() {
     })
   }, 120)
 }
-
 function cyberGlitch(elem) {
   const el = document.querySelector(elem)
   effects.cyberGlitch = setInterval(() => {
@@ -4429,7 +4411,6 @@ function cyberGlitch(elem) {
     }, 30)
   }, 60)
 }
-
 function neonPulse(elem) {
   const el = document.querySelector(elem)
   let t = 0
@@ -4441,7 +4422,6 @@ function neonPulse(elem) {
     el.style.transform = `scale(${1 + Math.sin(t) * 0.03})`
   }, 40)
 }
-
 function stopEffect(name, elem) {
   if (effects[name]) {
     if (effects[name].stop) {
@@ -4463,7 +4443,6 @@ function stopEffect(name, elem) {
     el.style.borderRadius = "";
   }
 }
-
 function stopAllEffects() {
   for (const e in effects) stopEffect(e)
   document.querySelectorAll("*").forEach(el => {
@@ -4478,7 +4457,7 @@ function stopAllEffects() {
   document.body.style.transform = ""
 }
 
-const c11 = "#a3ee42";
+const c11 = "#9de440";
 const o11 = "#8bc53e";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 addBlock('text-effect', '%1', {
