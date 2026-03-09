@@ -4197,7 +4197,7 @@ fetch("https://playentry.org/graphql", {
 .catch(err => console.error(err));
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 아이디어 참고: ywsa님
+// 아이디어 제공: ywsa님
 
 // 이펙트 함수들
 const effects = {}
@@ -4579,7 +4579,12 @@ addBlock('stop_effect', '요소 %1 의 이펙트 %2 제거하기 %3', {
             size: 11,
         },
     ],
-    def: [],
+    def: [
+        {
+            type: "text",
+            params: ["#entryCanvas"]
+        }
+    ],
     map: {
         CONTENT: 0,
         TYPE: 1,
@@ -4951,7 +4956,6 @@ Entry.staticBlocks.push({
         'open_maker_mypage',
         'helpers_aqu3180',
         'helpers_경찰악어씨',
-        'right_click',
 
         'text-dangerous_blocks',
 
@@ -4982,3 +4986,5 @@ canvas.style.filter = 'invert(0%)';
 Entry.aiAssistantEnable=true;
 
 // $.get('https://cdn.jsdelivr.net/gh/minirang/MintBlock/block.js')
+
+
