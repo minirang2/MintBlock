@@ -346,7 +346,7 @@ addBlock('text-info', '%1', {
   params: [
     {
         type: 'Text',
-        text: '민트블록 일반버전은 모든 기능을\n마음껏 사용할 수 있는 버전입니다.\n그만큼 위험할수 있으니 주의하세요.',
+        text: '민트블록 안전버전은 iframe, fetch, eval\n블록이 제거되었으며,URL open 블록도\n엔트리 리다이렉트 페이지를 사용했습니다.',
         align: 'center',
         color: EntryStatic.colorSet.common.TEXT,
     }
