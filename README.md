@@ -35,7 +35,9 @@ $.get('https://raw.githack.com/minirang/MintBlock/main/safe_mintBlock.js')
 절대로 악용하지 말아주세요.
 
 ---
-
+<br>
+블록 이미지들
+<br><br>
 <img src="img/block_img1.png">
 <img src="img/block_img2.png">
 <img src="img/block_img3.png">
